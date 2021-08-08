@@ -14,7 +14,7 @@ fun showAlert(
 
   dialogBuilder.setMessage(message)
     .setCancelable(true)
-    .setPositiveButton("Ok") { dialog, id ->
+    .setPositiveButton("Ok") { dialog, _ ->
       listener.proceed()
       dialog.dismiss()
     }

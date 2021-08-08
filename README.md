@@ -22,7 +22,7 @@ Used single activity to handle application features
 
 ### Artifact
 
-![Albums](docs/albums_list.png)
+![Albums](artifacts/albums_list.png)
 
 ## Programming Language
 
@@ -44,7 +44,7 @@ testable and maintainable 3.Easy for Dependency injection
 
 ### Clean Architecture and MVVM
 
-![Architecture Overview](docs/architecture.png)
+![Architecture Overview](artifacts/architecture.png)
 **Presentation Layer**
 This includes applications Activities,Fragments and ViewModels, Adapters etc.
 
@@ -69,7 +69,7 @@ actual implementation
 
 - **Repositories**  
   Returns data from data source either from Remote Service or Local Storage
-  
+
 - **Remote Services / Local Storage**  
   Responsible for serving as an access point to external data layers and persistence.
 
@@ -95,45 +95,46 @@ components and modules or layers
 
 ## Recommendations
 
-1. Use Pagination
+**Use Pagination**
 
-* Albums api returns more than 90+ records so in case of huge dataset there might be lags in the
-  recyclerview and it might end up with ANR so to avoid this we can use pagination to load more
-  elements once scrolling reaches to end of the list will keep loading next set of elements from api
-  or from local db.
-  *As per my observation albums api is returning set of albums those belongs specific user (say
-  userId 1 has 10 albums and UserId 2 has again 10+ albums and so on).
-    * So in order to accommodate pagination or load more feature we can make use of another api
-      which will return us set of albums for specific user. e.g We can make use of following api to
-      get albums of specific user
-      https://jsonplaceholder.typicode.com/users/1/albums
-      ```json
-      [
-      {
-      "userId": 1,
-      "id": 1,
-      "title": "quidem molestiae enim"
-      },
-      {
-      "userId": 1,
-      "id": 2,
-      "title": "sunt qui excepturi placeat culpa"
-      },
-      {
-      "userId": 1,
-      "id": 3,
-      "title": "omnis laborum odio"
-      }
-      ]
+*Albums api returns more than 90+ records so in case of huge dataset there might be lags in the
+recyclerview and it might end up with ANR so to avoid this we can use pagination to load more
+elements once scrolling reaches to end of the list will keep loading next set of elements from api
+or from local db.
+*As per my observation albums api is returning set of albums those belongs specific user (say userId
+1 has 10 albums and UserId 2 has again 10+ albums and so on).
+*So in order to accommodate pagination or load more feature we can make use of another api which
+will return us set of albums for specific user. e.g We can make use of following api to get albums
+of specific user
+https://jsonplaceholder.typicode.com/users/1/albums
 
-2.Use Expandable Recycler view
+ ```json
+  [
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "quidem molestiae enim"
+  },
+  {
+    "userId": 1,
+    "id": 2,
+    "title": "sunt qui excepturi placeat culpa"
+  },
+  {
+    "userId": 1,
+    "id": 3,
+    "title": "omnis laborum odio"
+  }
+]
+```
 
-* In the current approach/implementation we are storing data in local db.Here idea is to fetch
-  records on need basis. Inside recycler view(list) when user clicks on card then will fetch the
-  albums records from local db for that specific user and populate on the screen in sorted order by
-  expanding that card.
+**Use Expandable Recycler view**
+*In the current approach/implementation we are storing data in local db.Here idea is to fetch
+records on need basis. Inside recycler view(list) when user clicks on card then will fetch the
+albums records from local db for that specific user and populate on the screen in sorted order by
+expanding that card.
 
-3. Use of DiffUtil.Callback instead of notifyDataSetChanged()
+**Use of DiffUtil.Callback instead of notifyDataSetChanged()**
 
 *If we consider first recommendation then we need to keep changing the data set frequently of the
 recycler view. When the content of list gets changed, we have to call notifyDataSetChanged() to get
@@ -143,15 +144,15 @@ DiffUtil while calculating the difference between two lists.DiffUtil updates onl
 are different between the Lists of values.This recommendation directly impacts on performance of
 list.
 
-4.Add login feature
+**Add login feature**
 
 *We can add one more screen to authenticate and manage user session. Recommending this because when
 user will come to the home screen after login he will be able to see list of albums those are
 belongs to him only.
 
-5. Add album image url(say imgUrl) as new parameter in response
+**Add album image url(say imgUrl) as new parameter in response**
 
-* A picture is worth a thousand words
+*A picture is worth a thousand words
 
 ## Please Note
 
