@@ -1,7 +1,7 @@
 package com.learn.album
 
 import com.learn.album.data.db.AlbumModel
-import com.learn.album.data.model.AlbumResponse
+import com.learn.album.data.remote.AlbumResponse
 import com.learn.album.domain.entities.Album
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
