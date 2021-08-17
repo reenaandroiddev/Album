@@ -97,11 +97,11 @@ components and modules or layers
 
 **Use Pagination**
 
-*Albums api returns more than 90+ records so in case of huge dataset there might be lags in the
+* Albums api returns more than 90+ records so in case of huge dataset there might be lags in the
 recyclerview and it might end up with ANR so to avoid this we can use pagination to load more
 elements once scrolling reaches to end of the list will keep loading next set of elements from api
 or from local db.
-*As per my observation albums api is returning set of albums those belongs specific user (say userId
+* As per my observation albums api is returning set of albums those belongs specific user (say userId
 1 has 10 albums and UserId 2 has again 10+ albums and so on).
 *So in order to accommodate pagination or load more feature we can make use of another api which
 will return us set of albums for specific user. e.g We can make use of following api to get albums
@@ -129,14 +129,14 @@ https://jsonplaceholder.typicode.com/users/1/albums
 ```
 
 **Use Expandable Recycler view**
-*In the current approach/implementation we are storing data in local db.Here idea is to fetch
+* In the current approach/implementation we are storing data in local db.Here idea is to fetch
 records on need basis. Inside recycler view(list) when user clicks on card then will fetch the
 albums records from local db for that specific user and populate on the screen in sorted order by
 expanding that card.
 
 **Use of DiffUtil.Callback instead of notifyDataSetChanged()**
 
-*If we consider first recommendation then we need to keep changing the data set frequently of the
+* If we consider first recommendation then we need to keep changing the data set frequently of the
 recycler view. When the content of list gets changed, we have to call notifyDataSetChanged() to get
 the updates but it is very costly. There are so many iterations for getting the job done in the case
 of notifyDataSetChanged(). DiffUtil.Callback is an abstract class and used as callback class by
@@ -146,13 +146,17 @@ list.
 
 **Add login feature**
 
-*We can add one more screen to authenticate and manage user session. Recommending this because when
+* We can add one more screen to authenticate and manage user session. Recommending this because when
 user will come to the home screen after login he will be able to see list of albums those are
 belongs to him only.
 
 **Add album image url(say imgUrl) as new parameter in response**
 
-*A picture is worth a thousand words
+* A picture is worth a thousand words
+
+
+**Search Albums from list**
+Provide search bar on list screen to search album from the list
 
 ## Please Note
 
