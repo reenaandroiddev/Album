@@ -158,7 +158,4 @@ belongs to him only.
 **Search Albums from list**
 Provide search bar on list screen to search album from the list
 
-## Please Note
 
-1. Haven't used DiffUtil.Callback because application loading data only once from api and not
-   refreshing list frequently hence preferred notifyDataSetChanged()
