@@ -13,34 +13,62 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AlbumRepositoryImpl(
-  private val albumApi: AlbumApi,
-  private val albumDao: AlbumDao,
-  private val connectivity: Connectivity
+    private val albumApi: AlbumApi,
+    private val albumDao: AlbumDao,
+    private val connectivity: Connectivity
 ) : AlbumRepository {
-  override suspend fun getAlbums(): Result<List<Album>> {
     var albumList: List<Album>? = null
-    if (connectivity.hasNetwork()) {
-      withContext(Dispatchers.IO)
-      {
-        val apiAlbumList = albumApi.getAlbums().body()?.let { AlbumResponseToModelMapper.map(it) }
-        apiAlbumList?.map {
-          albumDao.saveAlbum(it)
+
+    override suspend fun getAlbums(): Result<List<Album>> {
+        if (connectivity.hasNetwork()) {
+            withContext(Dispatchers.IO)
+            {
+                val apiAlbumList =
+                    albumApi.getAlbums().body()?.let { AlbumResponseToModelMapper.map(it) }
+                apiAlbumList?.map {
+                    albumDao.saveAlbum(it)
+                }
+            }
         }
-      }
-    }
-    withContext(Dispatchers.IO)
-    {
-      val dbAlbumList = albumDao.getAlbumsFromDb()
-      if (!dbAlbumList.isNullOrEmpty()) {
-        albumList = AlbumModelToDomainEntityMapper.map(dbAlbumList)
-      }
+        withContext(Dispatchers.IO)
+        {
+            val dbAlbumList = albumDao.getAlbumsFromDb()
+            if (!dbAlbumList.isNullOrEmpty()) {
+                albumList = AlbumModelToDomainEntityMapper.map(dbAlbumList)
+            }
+        }
+
+        return when (albumList.isNullOrEmpty()) {
+            true -> Result.Error(Throwable(DB_ENTRY_ERROR))
+            else -> Result.Success(albumList!!)
+        }
     }
 
-    return when (albumList.isNullOrEmpty()) {
-      true -> Result.Error(Throwable(DB_ENTRY_ERROR))
-      else -> Result.Success(albumList!!)
+    override suspend fun getUserAlbums(userId: Int): Result<List<Album>> {
+        var userAlbumList: List<Album>? = null
+
+
+        withContext(Dispatchers.IO)
+        {
+            //Fetch From Network
+            if (connectivity.hasNetwork()) {
+                albumApi.getUserAlbums(userId).body()?.let {
+                    AlbumResponseToModelMapper.map(it)
+                }?.map { albumModel -> albumDao.saveAlbum(albumModel) }
+            }
+
+            //Fetch from Local DB
+            userAlbumList =
+                albumDao.getUserAlbumsFromDb(userId).let { AlbumModelToDomainEntityMapper.map(it) }
+
+        }
+
+
+        return when (userAlbumList.isNullOrEmpty()) {
+            true -> Result.Error(Throwable(DB_ENTRY_ERROR))
+            else -> Result.Success(userAlbumList!!)
+        }
     }
-  }
 
 
 }

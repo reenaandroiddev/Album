@@ -2,7 +2,7 @@ package com.learn.album.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.learn.album.domain.result.Result
-import com.learn.album.domain.usecases.GetAlbumUseCase
+import com.learn.album.domain.usecases.getalbums.GetAlbumUseCase
 import com.learn.album.getAlbumEntity
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
